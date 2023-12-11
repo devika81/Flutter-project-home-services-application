@@ -55,7 +55,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyBBYqTlFx8gWdo8MQOWOEyK6FONAW9omG4',
-    appId: '1:186488893880:android:ded7d4ad7556a729831f4d',
+    appId: '1:186488893880:android:ff9cca51d8f679d7831f4d',
     messagingSenderId: '186488893880',
     projectId: 'home-app-36dfe',
     storageBucket: 'home-app-36dfe.appspot.com',
@@ -63,19 +63,19 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyBEHoFXg_tho9O2i_fQH5wVt56h1cfSNe8',
-    appId: '1:186488893880:ios:2dc991bef350cd67831f4d',
+    appId: '1:186488893880:ios:dddb3ed6ae50a5ae831f4d',
     messagingSenderId: '186488893880',
     projectId: 'home-app-36dfe',
     storageBucket: 'home-app-36dfe.appspot.com',
-    iosBundleId: 'com.example.homeServicesApp',
+    iosBundleId: 'com.example.home_services_app',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
     apiKey: 'AIzaSyBEHoFXg_tho9O2i_fQH5wVt56h1cfSNe8',
-    appId: '1:186488893880:ios:2dc991bef350cd67831f4d',
+    appId: '1:186488893880:ios:dddb3ed6ae50a5ae831f4d',
     messagingSenderId: '186488893880',
     projectId: 'home-app-36dfe',
     storageBucket: 'home-app-36dfe.appspot.com',
-    iosBundleId: 'com.example.homeServicesApp',
+    iosBundleId: 'com.example.home_services_app',
   );
 }

@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:home_services_app/register_seeker.dart';
+import 'package:home_services_app/service_list.dart';
 
 class ScreenLoginSeeker extends StatefulWidget {
   const ScreenLoginSeeker({super.key});
@@ -85,23 +86,37 @@ class _ScreenLoginSeekerState extends State<ScreenLoginSeeker> {
 
               //sign in button
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                padding: const EdgeInsets.symmetric(horizontal: 25),
                 child: Container(
-                  padding: EdgeInsets.all(20),
-                  decoration: BoxDecoration(
-                    color: Colors.deepPurple,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Center(
-                    child: Text(
-                      'Sign In',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
+                  padding: EdgeInsets.only(left: 1.0),
+                  child: ElevatedButton(
+                      style: ButtonStyle(
+                        foregroundColor:
+                            MaterialStateProperty.all(Colors.white),
+                        backgroundColor:
+                            MaterialStateProperty.all(Colors.deepPurple),
+                        minimumSize: MaterialStateProperty.all(
+                          Size(625, 40),
+                        ),
+                        textStyle: MaterialStateProperty.all(TextStyle(
+                          fontSize: 20,
+                        )),
                       ),
-                    ),
-                  ),
+                      onPressed: () {
+                        //navigate to the service list page
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ScreenServiceList()));
+                      },
+                      child: Text(
+                        "Sign In",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                        ),
+                      )),
                 ),
               ),
               SizedBox(
