@@ -1,9 +1,13 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:home_services_app/login_provider.dart';
 import 'package:home_services_app/login_seeker.dart';
 import 'package:home_services_app/service_list.dart';
+import 'package:home_services_app/user_auth/firebase_services_auth.dart';
+import 'package:home_services_app/toast/toast.dart';
 
 class ScreenRegisterSeeker extends StatefulWidget {
   const ScreenRegisterSeeker({super.key});
@@ -13,6 +17,19 @@ class ScreenRegisterSeeker extends StatefulWidget {
 }
 
 class _ScreenRegisterSeekerState extends State<ScreenRegisterSeeker> {
+  final FirebaseAuthService _auth = FirebaseAuthService();
+  TextEditingController _usernameController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+  TextEditingController _confirmpasswordController = TextEditingController();
+
+  @override
+  void dispose() {
+    _usernameController.dispose();
+    _passwordController.dispose();
+    _confirmpasswordController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,6 +71,7 @@ class _ScreenRegisterSeekerState extends State<ScreenRegisterSeeker> {
                   child: Padding(
                     padding: const EdgeInsets.only(left: 20.0),
                     child: TextField(
+                      controller: _usernameController,
                       decoration: InputDecoration(
                           border: InputBorder.none, hintText: 'username'),
                     ),
@@ -77,6 +95,7 @@ class _ScreenRegisterSeekerState extends State<ScreenRegisterSeeker> {
                   child: Padding(
                     padding: const EdgeInsets.only(left: 20.0),
                     child: TextField(
+                      controller: _passwordController,
                       obscureText: true,
                       decoration: InputDecoration(
                           border: InputBorder.none, hintText: 'password'),
@@ -100,6 +119,7 @@ class _ScreenRegisterSeekerState extends State<ScreenRegisterSeeker> {
                   child: Padding(
                     padding: const EdgeInsets.only(left: 20.0),
                     child: TextField(
+                      controller: _confirmpasswordController,
                       obscureText: true,
                       decoration: InputDecoration(
                           border: InputBorder.none,
@@ -111,6 +131,9 @@ class _ScreenRegisterSeekerState extends State<ScreenRegisterSeeker> {
               SizedBox(
                 height: 20,
               ),
+
+
+             
 
               // sign up button
               Padding(
@@ -132,10 +155,7 @@ class _ScreenRegisterSeekerState extends State<ScreenRegisterSeeker> {
                       ),
                       onPressed: () {
                         //navigate to the service list page
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ScreenServiceList()));
+                        signUp();
                       },
                       child: Text(
                         "Sign Up",
@@ -162,11 +182,9 @@ class _ScreenRegisterSeekerState extends State<ScreenRegisterSeeker> {
                   TextButton(
                       onPressed: () {
                         //Navigate to the seeker login page
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ScreenLoginSeeker()),
-                        );
+                            Navigator.push(context,
+            MaterialPageRoute(builder: (context) => ScreenLoginSeeker()));
+
                       },
                       child: Text(
                         'Login now',
@@ -180,5 +198,52 @@ class _ScreenRegisterSeekerState extends State<ScreenRegisterSeeker> {
         ),
       ),
     );
+  }
+String? validateEmail(String value) {
+  if (value.isEmpty) {
+    return 'Please enter your email address';
+  } else if (!RegExp(r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$').hasMatch(value)) {
+    return 'Please enter a valid email address';
+  }
+  return null;
+}
+
+String? validatePassword(String value) {
+  if (value.isEmpty) {
+    return 'Please enter your password';
+  } else if (value.length < 6) {
+    return 'Password should be at least 6 characters';
+  }
+  return null;
+}
+  void signUp() async {
+    String username = _usernameController.text;
+    String password = _passwordController.text;
+    String confirmpassword = _confirmpasswordController.text;
+
+    String? emailError = validateEmail(username);
+    String? passwordError = validatePassword(password);
+    // Check for errors
+    if (emailError != null || passwordError != null) {
+       showToast(message: emailError ?? passwordError ?? 'Please fill required fields');
+      return;
+    }
+    if (password == confirmpassword) {
+          Map<String, dynamic> extraDetails = {
+      "service_provider": true
+      // Add more fields as needed
+    };
+      User? user = await _auth.register(username, password, extraDetails: extraDetails);
+      if (user != null) {
+        print("user is successfully created");
+        // ignore: use_build_context_synchronously
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => ScreenServiceList()));
+      } else {
+        showToast(message: "Some error occured");
+      }
+    } else {
+      showToast(message: "password should be same as confirm password");
+    }
   }
 }

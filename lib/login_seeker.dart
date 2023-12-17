@@ -3,6 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:home_services_app/register_seeker.dart';
 import 'package:home_services_app/service_list.dart';
+import 'package:home_services_app/user_auth/firebase_services_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:home_services_app/toast/toast.dart';
 
 class ScreenLoginSeeker extends StatefulWidget {
   const ScreenLoginSeeker({super.key});
@@ -12,12 +15,23 @@ class ScreenLoginSeeker extends StatefulWidget {
 }
 
 class _ScreenLoginSeekerState extends State<ScreenLoginSeeker> {
+   final FirebaseAuthService _auth = FirebaseAuthService();
+  TextEditingController _usernameController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    _usernameController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color.fromARGB(204, 245, 242, 242),
       body: SafeArea(
         child: Center(
+          child:SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -51,8 +65,9 @@ class _ScreenLoginSeekerState extends State<ScreenLoginSeeker> {
                   child: Padding(
                     padding: const EdgeInsets.only(left: 20.0),
                     child: TextField(
+                      controller: _usernameController,
                       decoration: InputDecoration(
-                          border: InputBorder.none, hintText: 'username'),
+                          border: InputBorder.none, hintText: 'Email'),
                     ),
                   ),
                 ),
@@ -73,6 +88,7 @@ class _ScreenLoginSeekerState extends State<ScreenLoginSeeker> {
                   child: Padding(
                     padding: const EdgeInsets.only(left: 20.0),
                     child: TextField(
+                      controller: _passwordController,
                       obscureText: true,
                       decoration: InputDecoration(
                           border: InputBorder.none, hintText: 'password'),
@@ -102,13 +118,14 @@ class _ScreenLoginSeekerState extends State<ScreenLoginSeeker> {
                           fontSize: 20,
                         )),
                       ),
-                      onPressed: () {
-                        //navigate to the service list page
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ScreenServiceList()));
-                      },
+                       onPressed: signIn ,
+                      //   //navigate to the service list page
+                      //   Navigator.push(
+                      //       context,
+                      //       MaterialPageRoute(
+                      //           builder: (context) => ScreenServiceList()));
+                      // }
+                      
                       child: Text(
                         "Sign In",
                         style: TextStyle(
@@ -149,8 +166,52 @@ class _ScreenLoginSeekerState extends State<ScreenLoginSeeker> {
               )
             ],
           ),
-        ),
+       ), ),
       ),
     );
+  }
+String? validateEmail(String value) {
+  if (value.isEmpty) {
+    return 'Please enter your email address';
+  } else if (!RegExp(r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$').hasMatch(value)) {
+    return 'Please enter a valid email address';
+  }
+  return null;
+}
+
+String? validatePassword(String value) {
+  if (value.isEmpty) {
+    return 'Please enter your password';
+  } else if (value.length < 6) {
+    return 'Password should be at least 6 characters';
+  }
+  return null;
+}
+
+  void signIn() async {
+    String username = _usernameController.text;
+    String password = _passwordController.text;
+
+  String? emailError = validateEmail(username);
+    String? passwordError = validatePassword(password);
+
+    // Check for errors
+    if (emailError != null || passwordError != null) {
+       showToast(message: emailError ?? passwordError ?? 'Please fill required fields');
+      return;
+    }
+
+
+      User? user = await _auth.login(username, password);
+      if (user != null) {
+        print("user is signed in");
+        // ignore: use_build_context_synchronously
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => ScreenServiceList()));
+      } else {
+        showToast(message: "Some error occured");
+      }
+    
+
   }
 }
