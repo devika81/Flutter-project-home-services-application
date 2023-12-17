@@ -36,6 +36,7 @@ class _ScreenRegisterSeekerState extends State<ScreenRegisterSeeker> {
       backgroundColor: Color.fromARGB(204, 245, 242, 242),
       body: SafeArea(
         child: Center(
+          child:SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -195,7 +196,7 @@ class _ScreenRegisterSeekerState extends State<ScreenRegisterSeeker> {
               )
             ],
           ),
-        ),
+      ),),
       ),
     );
   }
