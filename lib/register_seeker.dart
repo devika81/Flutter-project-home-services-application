@@ -231,7 +231,7 @@ String? validatePassword(String value) {
     }
     if (password == confirmpassword) {
           Map<String, dynamic> extraDetails = {
-      "service_provider": true
+      "service_provider": false
       // Add more fields as needed
     };
       User? user = await _auth.register(username, password, extraDetails: extraDetails);

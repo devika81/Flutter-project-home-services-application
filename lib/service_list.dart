@@ -1,9 +1,9 @@
 // ignore_for_file: prefer_const_constructors
-
+import 'package:home_services_app/date.dart';
 import 'package:flutter/material.dart';
 import 'package:home_services_app/models/service.dart';
 import 'package:home_services_app/animation/fade_animation.dart';
-import 'package:home_services_app/cleaning.dart';
+//import 'package:home_services_app/cleaning.dart';
 //import 'package:flutter/src/widgets/framework.dart';
 //import 'package:flutter/src/widgets/placeholder.dart';
 
@@ -46,7 +46,7 @@ class _ScreenServiceListState extends State<ScreenServiceList> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => CleaningPage(),
+                      builder: (context) => ScreenDate(),
                     ),
                   );
                 },
