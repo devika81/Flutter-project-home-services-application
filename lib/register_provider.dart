@@ -35,6 +35,22 @@ class _ScreenRegisterProviderState extends State<ScreenRegisterProvider> {
   }
 
   String selectedGender = '';
+  ///////////////////////////////////////////////////////////////////////////////
+  String selectedService = 'Cleaning'; 
+
+  List<String> services = [
+    'Cleaning',
+    'Plumber',
+    'Electrician',
+    'Painter',
+    'Carpenter',
+    'Gardener',
+    'Tailor',
+    'Maid',
+    'Driver',
+    'Cook',
+  ];
+//////////////////////////////////////////////////////////////////////////
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,7 +80,7 @@ class _ScreenRegisterProviderState extends State<ScreenRegisterProvider> {
               ),
               SizedBox(height: 50),
 
-              // username textfield
+              // first name
 
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25),
@@ -87,7 +103,9 @@ class _ScreenRegisterProviderState extends State<ScreenRegisterProvider> {
               SizedBox(
                 height: 20,
               ),
-              //service provided
+
+
+              //last name
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25),
                 child: Container(
@@ -109,7 +127,55 @@ class _ScreenRegisterProviderState extends State<ScreenRegisterProvider> {
               SizedBox(
                 height: 20,
               ),
+////////////////////////////////////////////////////////////////////
+       // service specialized in dropdown
+  
 
+
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      border: Border.all(color: Colors.white),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 20.0),
+                      child: Row(
+                        children: [
+                          Text('Service Specialized In:',style: TextStyle(fontSize: 16),),
+                          SizedBox(width: 10),
+                          DropdownButton<String>(
+                            value: selectedService,
+                            onChanged: (String? newValue) {
+                              setState(() {
+                                selectedService = newValue!;
+                              });
+                            },
+                            items: services.map<DropdownMenuItem<String>>(
+                              (String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value),
+                                );
+                              },
+                            ).toList(),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+       SizedBox(
+                height: 20,
+              ),
+
+
+
+
+////////////////////////////////////////////////////////////////////////
+              //phone number
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25),
                 child: Container(
@@ -388,7 +454,8 @@ String? validateConfirmPassword(String password, String confirmPassword) {
       'firstName': firstName,
       'lastName': lastName,
       'phone': phone,
-      "service_provider": true
+      "service_provider": true,
+      "serviceCategory": selectedService
       // Add more fields as needed
     };
 

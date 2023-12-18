@@ -59,7 +59,7 @@ class _ScreenRegisterSeekerState extends State<ScreenRegisterSeeker> {
               ),
               SizedBox(height: 50),
 
-              // username textfield
+              // email textfield
 
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25),
@@ -74,7 +74,7 @@ class _ScreenRegisterSeekerState extends State<ScreenRegisterSeeker> {
                     child: TextField(
                       controller: _usernameController,
                       decoration: InputDecoration(
-                          border: InputBorder.none, hintText: 'username'),
+                          border: InputBorder.none, hintText: 'email'),
                     ),
                   ),
                 ),
