@@ -455,7 +455,8 @@ String? validateConfirmPassword(String password, String confirmPassword) {
       'lastName': lastName,
       'phone': phone,
       "service_provider": true,
-      "serviceCategory": selectedService
+      "serviceCategory": selectedService,
+      "gender": selectedGender
       // Add more fields as needed
     };
 

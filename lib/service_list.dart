@@ -6,6 +6,7 @@ import 'package:home_services_app/animation/fade_animation.dart';
 //import 'package:home_services_app/cleaning.dart';
 //import 'package:flutter/src/widgets/framework.dart';
 //import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:home_services_app/global.dart' as globals;
 
 class ScreenServiceList extends StatefulWidget {
   const ScreenServiceList({super.key});
@@ -43,12 +44,15 @@ class _ScreenServiceListState extends State<ScreenServiceList> {
         floatingActionButton: selectedService >= 0
             ? FloatingActionButton(
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ScreenDate(),
-                    ),
-                  );
+                  if (selectedService >= 0) {
+                    globals.setSelectedCategory(services[selectedService].name);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ScreenDate(),
+                      ),
+                    );
+                  }
                 },
                 child: Icon(
                   Icons.arrow_forward_ios,

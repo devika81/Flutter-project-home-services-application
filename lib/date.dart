@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:home_services_app/cleaning.dart';
+import 'package:home_services_app/select_provider.dart';
 //import 'package:flutter/src/widgets/framework.dart';
 //import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:home_services_app/global.dart' as globals;
 
 class ScreenDate extends StatefulWidget {
   const ScreenDate({super.key});
@@ -23,22 +24,24 @@ class _ScreenDateState extends State<ScreenDate> {
     }
 
     return Scaffold(
-      floatingActionButton: 
-            FloatingActionButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => CleaningPage(),
-                    ),
-                  );
-                },
-                child: Icon(
-                  Icons.arrow_forward_ios,
-                  size: 20,
-                ),
-                backgroundColor: Colors.blue,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          if (_date != null) {
+            globals.setSelectedDate(_date!);
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ScreenSelectProvider(),
               ),
+            );
+          }
+        },
+        child: Icon(
+          Icons.arrow_forward_ios,
+          size: 20,
+        ),
+        backgroundColor: Colors.blue,
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -62,7 +65,6 @@ class _ScreenDateState extends State<ScreenDate> {
                 },
                 icon: Icon(Icons.calendar_today),
                 label: Text('Choose date')),
-                
           ],
         ),
       ),
